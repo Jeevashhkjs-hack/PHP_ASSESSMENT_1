@@ -35,9 +35,18 @@ foreign key (song_id) references songs(id)
 create table playList(
 id int auto_increment,
 name varchar(255),
+primary key (id)
+)
+
+create table listWithSong(
+id int AUTO_INCREMENT,
 user_id int,
-primary key(id),
-foreign key(user_id) references users(id)
+song_id int,
+playList_id int,
+PRIMARY key (id),
+foreign key (user_id) references users(id),
+FOREIGN key (song_id) references songs(id),
+foreign key (playList_id) references playList(id)
 );
 
 create table request_premium(

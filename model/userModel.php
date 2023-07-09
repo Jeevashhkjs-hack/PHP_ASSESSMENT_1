@@ -21,12 +21,12 @@ class userModel extends connection{
     public function home(){
         return $this->dbConnect->query("SELECT songs.song_path as SongsName, artists.name as artistsName,songs.id as songsId FROM songs join artists on artists.id = songs.artists_id")->fetchAll(PDO::FETCH_OBJ);
     }
-    public function playListCreate($name,$userName){
-        $this->dbConnect->query("INSERT INTO playList (name,userName) values ('$name','$userName')");
+    public function playListCreate($name){
+        $this->dbConnect->query("INSERT INTO playList (name) values ('$name')");
         return $this->dbConnect->query("select id from playList order by id desc")->fetch(PDO::FETCH_NUM);
     }
-    public function updateSong($id,$songId){
-        $this->dbConnect->query("UPDATE songs set playlist_id='$id' where songs.id = '$songId'");
+    public function updateSong($id,$songId,$playListId){
+        $this->dbConnect->query("INSERT INTO listWithSong (user_id,song_id,playList_id) values ('$id','$songId','$playListId')");
     }
     public function artists($nam){
         $this->dbConnect->query("INSERT INTO artists (name) VALUES ('$nam')");
@@ -39,15 +39,15 @@ class userModel extends connection{
     public function insertProImg($getSong,$id,$type){
         $this->dbConnect->query("INSERT INTO images (img_path,model_name,model_no) values ('$getSong','$type','$id')");
     }
-    public function getPlayLists($userName){
+    public function getPlayLists($userID){
         $alldatas = [];
-        $playLIsts = $this->dbConnect->query("SELECT * from playList where userName = '$userName'")->fetchAll(PDO::FETCH_OBJ);
-        $userPreOrNot = $this->dbConnect->query("SELECT * FROM users where user_name = '$userName' and is_premium = 0")->fetchAll(PDO::FETCH_OBJ);
+        $playLIsts = $this->dbConnect->query("select DISTINCT playList.id,playList.name from listWithSong join playList on listWithSong.playList_id = playList.id where listWithSong.user_id = '$userID'")->fetchAll(PDO::FETCH_OBJ);
+        $userPreOrNot = $this->dbConnect->query("SELECT * FROM users where id = '$userID' and is_premium = 0")->fetchAll(PDO::FETCH_OBJ);
         array_push($alldatas,$playLIsts,$userPreOrNot);
         return $alldatas;
     }
     public function getListSongs($id){
-        return $this->dbConnect->query("SELECT * FROM songs where playlist_id='$id'")->fetchAll(PDO::FETCH_OBJ);
+        return $this->dbConnect->query("select songs.song_path from listWithSong join songs on listWithSong.song_id = songs.id where listWithSong.playList_id = '$id';")->fetchAll(PDO::FETCH_OBJ);
     }
     public function getRequestUser(){
         $allData = [];
