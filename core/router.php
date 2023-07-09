@@ -109,6 +109,10 @@ class router {
                             $this->controller->signup($_POST);
                             break;
 
+                        case 'sharedUsers':
+                            $this->controller->userShare($_POST['songId'],$_POST['premiumUsersId']);
+                            break;
+
                         default :
                             $this->controller->index();
                     }

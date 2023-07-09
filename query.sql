@@ -68,3 +68,14 @@ created_at timestamp,
 updated_at timestamp,
 primary key (id)
 )
+
+create table shareSongs(
+id int auto_increment,
+user_id int,
+song_id int,
+share_user_id int,
+primary key (id),
+foreign key (user_id) references users(id),
+foreign key (song_id) references songs(id),
+foreign key(share_user_id) references users(id)
+)

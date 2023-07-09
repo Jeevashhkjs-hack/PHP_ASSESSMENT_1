@@ -70,4 +70,11 @@ class userModel extends connection{
         $this->dbConnect->query("UPDATE users set is_premium = 1 where user_name = '$userName' ");
         $this->dbConnect->query("UPDATE request_premium set is_done = 1 where userName = '$userName'");
     }
+    public function getPremiumUsersList(){
+        return $this->dbConnect->query("SELECT * FROM users WHERE is_premium = 1")->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function userSharedFc($userId,$songsId,$shareUserId){
+        print_r($shareUserId);
+//        $this->dbConnect->query("INSERT INTO shareSongs (user_id,song_id,share_user_id) values ('$userId','$songsId','$shareUserId')");
+    }
 }

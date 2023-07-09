@@ -18,6 +18,13 @@
             <ol class="list-decimal">
                 <?php foreach($allsongs as $songs=>$values): ?>
                 <li><?php echo $values->SongsName ?></li><span><?php echo $values->artistsName ?></span>
+                <?php if(!$preornot): ?>
+                    <form action="/sharedUsers" method="post">
+                        <button name="songId" type="submit" value="<?php echo $values->songsId ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                            Share
+                        </button>
+                    </form>
+                <?php endif; ?>
                 <?php endforeach; ?>
             </ol>
         </div>

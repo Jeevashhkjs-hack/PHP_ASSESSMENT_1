@@ -18,5 +18,6 @@ $router->get('/requestPremium','requestPremium');
 $router->get('/acceptRequest','acceptRequest');
 $router->get('/logout','logout');
 $router->get('/signup','signup');
+$router->get('/sharedUsers','sharedUsers');
 
 $router->routingFunc();
