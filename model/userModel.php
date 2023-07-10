@@ -74,7 +74,11 @@ class userModel extends connection{
         return $this->dbConnect->query("SELECT * FROM users WHERE is_premium = 1")->fetchAll(PDO::FETCH_OBJ);
     }
     public function userSharedFc($userId,$songsId,$shareUserId){
-        print_r($shareUserId);
-//        $this->dbConnect->query("INSERT INTO shareSongs (user_id,song_id,share_user_id) values ('$userId','$songsId','$shareUserId')");
+        $this->dbConnect->query("INSERT INTO shareSongs (user_id,song_id,share_user_id) values ('$userId','$songsId','$shareUserId')");
+    }
+
+    public function getShareSongs($getUserId)
+    {
+        return $this->dbConnect->query("select DISTINCT songs.song_path from songs join shareSongs on songs.id = shareSongs.song_id where shareSongs.share_user_id = 3")->fetchAll(PDO::FETCH_OBJ);
     }
 }

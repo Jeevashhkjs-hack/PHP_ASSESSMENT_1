@@ -28,6 +28,14 @@
                 <?php endforeach; ?>
             </ol>
         </div>
+        <div class="shareSongsList">
+            <h4 class="text-2xl font-bold dark:text-white">Share Songs Lists</h4>
+            <ol>
+                <?php foreach($shareSongs as $shareSongs=>$songsValue): ?>
+                    <li><?php echo $songsValue->song_path ?></li>
+                <?php endforeach; ?>
+            </ol>
+        </div>
         <?php if(isset($_SESSION['userName'])): ?>
             <div class="loginLogou">
                 <form action="/logout" method="post">

@@ -12,6 +12,7 @@
                     <input id="default-checkbox" name="premiumUsersId[]" type="checkbox" value="<?php echo $userLists->id ?>" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 </div>
             <?php endforeach; ?>
+            <input type="hidden" name="songId" value="<?php echo $getSongId ?>" />
             <button type="submit" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
                 Share Your Feeling
             </button>
