@@ -47,7 +47,11 @@ class userModel extends connection{
         return $alldatas;
     }
     public function getListSongs($id){
-        return $this->dbConnect->query("select songs.song_path from listWithSong join songs on listWithSong.song_id = songs.id where listWithSong.playList_id = '$id';")->fetchAll(PDO::FETCH_OBJ);
+        $allData = [];
+        $playName = $this->dbConnect->query("SELECT * FROM playList WHERE id = '$id'")->fetchAll(PDO::FETCH_OBJ);
+        $songs = $this->dbConnect->query("select songs.song_path from listWithSong join songs on listWithSong.song_id = songs.id where listWithSong.playList_id = '$id';")->fetchAll(PDO::FETCH_OBJ);
+        array_push($allData,$songs,$playName);
+        return $allData;
     }
     public function getRequestUser(){
         $allData = [];
@@ -61,7 +65,11 @@ class userModel extends connection{
         $this->dbConnect->query("insert into request_premium (userName,is_done) values ('$name',0)");
     }
     public function checkUser($userName,$passwod){
-        return $this->dbConnect->query("SELECT * from users WHERE user_name = '$userName' and password = '$passwod'")->fetchAll(PDO::FETCH_OBJ);
+        $usersCheck = [];
+        $logInUser = $this->dbConnect->query("SELECT * from users WHERE user_name = '$userName' and password = '$passwod'")->fetchAll(PDO::FETCH_OBJ);
+        $adminUser = $this->dbConnect->query("SELECT * FROM users WHERE user_name = '$userName' and password = '$passwod' and is_admin = 1")->fetchAll(PDO::FETCH_OBJ);
+        array_push($usersCheck,$logInUser,$adminUser);
+        return $usersCheck;
     }
     public function signUp($name,$user,$pass){
         $this->dbConnect->query("INSERT INTO users (name,user_name,password,is_premium,is_admin) values ('$name','$user','$pass',0,null)");
@@ -80,5 +88,13 @@ class userModel extends connection{
     public function getShareSongs($getUserId)
     {
         return $this->dbConnect->query("select DISTINCT songs.song_path from songs join shareSongs on songs.id = shareSongs.song_id where shareSongs.share_user_id = 3")->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function listsValidation($getName){
+        $alldata = [];
+        $song = $this->dbConnect->query("select * from songs where song_path ='$getName'");
+        $play = $this->dbConnect->query("select * from playList where name = '$getName'")->fetchAll(PDO::FETCH_OBJ);
+        array_push($alldata,$song,$play);
+        return $alldata;
     }
 }
